@@ -4436,7 +4436,11 @@ const uploadBenchmark = (config) => __awaiter(void 0, void 0, void 0, function* 
     formData.append("tool", config.tool);
     formData.append("commit", process.env.GITHUB_SHA);
     formData.append("branch", process.env.GITHUB_REF);
-    client.post(config.url, "", Object.assign(Object.assign({}, formData.getHeaders()), { "Content-Length": formData.getLengthSync(), "x-api-key": config.token }));
+    // Hack https://github.com/node-fetch/node-fetch/issues/102#issuecomment-209820954
+    formData.getLengthSync = null;
+    client.post(config.url, "", Object.assign(Object.assign({}, formData.getHeaders()), { 
+        // "Content-Length": formData.getLengthSync(),
+        "x-api-key": config.token }));
 });
 
 ;// CONCATENATED MODULE: ./src/index.ts
@@ -4455,7 +4459,7 @@ var src_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argu
 function main() {
     return src_awaiter(this, void 0, void 0, function* () {
         const config = getConfig();
-        (0,core.debug)("Config: " + JSON.stringify(config));
+        (0,core.debug)(`Config: url=${config.url}, tool=${config.tool}, file=${config.file}`);
         yield uploadBenchmark(config);
         (0,core.info)("Benchmark successfully uploaded!");
     });
