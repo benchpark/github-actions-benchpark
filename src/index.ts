@@ -4,7 +4,7 @@ import { uploadBenchmark } from "./upload";
 
 async function main() {
   const config = getConfig();
-  debug("Config: " + JSON.stringify(config));
+  debug(`Config: url=${config.url}, tool=${config.tool}, file=${config.file}`);
 
   await uploadBenchmark(config);
   info("Benchmark successfully uploaded!");

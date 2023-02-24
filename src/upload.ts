@@ -14,7 +14,7 @@ export const uploadBenchmark = async (config: ActionConfig) => {
 
   client.post(config.url, "", {
     ...formData.getHeaders(),
-    "Content-Length": formData.getLengthSync(),
+    // "Content-Length": formData.getLengthSync(),
     "x-api-key": config.token,
   });
 };
