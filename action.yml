@@ -17,5 +17,5 @@ inputs:
     default: "https://benchpark.dev/api/v1/upload"
 
 runs:
-  using: "node18"
+  using: "node16"
   main: "dist/index.js"
