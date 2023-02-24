@@ -1,0 +1,21 @@
+name: "Benchpark Benchmark"
+author: "Benchpark"
+description: "Continous benchmarking using Benchpark"
+inputs:
+  tool:
+    description: "Benchmarking tool, one of: [go]"
+    required: true
+  file:
+    description: "Path to the benchmark file"
+    required: true
+  token:
+    description: "Benchpark API token"
+    required: true
+  url:
+    description: "Benchpark URL"
+    required: true
+    default: "https://benchpark.dev/api/v1/upload"
+
+runs:
+  using: "node18"
+  main: "dist/index.js"
