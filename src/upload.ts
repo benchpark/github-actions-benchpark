@@ -12,6 +12,9 @@ export const uploadBenchmark = async (config: ActionConfig) => {
   formData.append("commit", process.env.GITHUB_SHA);
   formData.append("branch", process.env.GITHUB_REF);
 
+  // Hack https://github.com/node-fetch/node-fetch/issues/102#issuecomment-209820954
+  formData.getLengthSync = null;
+
   client.post(config.url, "", {
     ...formData.getHeaders(),
     // "Content-Length": formData.getLengthSync(),
