@@ -4397,6 +4397,8 @@ __nccwpck_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(2186);
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(7147);
 ;// CONCATENATED MODULE: ./src/config.ts
 
 const getConfig = () => {
@@ -4411,8 +4413,6 @@ const getConfig = () => {
 
 // EXTERNAL MODULE: ./node_modules/@actions/http-client/lib/index.js
 var lib = __nccwpck_require__(6255);
-// EXTERNAL MODULE: external "fs"
-var external_fs_ = __nccwpck_require__(7147);
 // EXTERNAL MODULE: ./node_modules/form-data/lib/form_data.js
 var form_data = __nccwpck_require__(4334);
 var form_data_default = /*#__PURE__*/__nccwpck_require__.n(form_data);
@@ -4431,8 +4431,9 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 const uploadBenchmark = (config) => __awaiter(void 0, void 0, void 0, function* () {
     const client = new lib.HttpClient("github-actions");
+    const file = (0,external_fs_.createReadStream)(config.file);
     const formData = new (form_data_default())();
-    formData.append("benchmark", (0,external_fs_.createReadStream)(config.file));
+    formData.append("benchmark", file);
     formData.append("tool", config.tool);
     formData.append("commit", process.env.GITHUB_SHA);
     formData.append("branch", process.env.GITHUB_REF);
@@ -4456,6 +4457,7 @@ var src_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argu
 
 
 
+
 function main() {
     return src_awaiter(this, void 0, void 0, function* () {
         const config = getConfig();
@@ -4474,6 +4476,10 @@ function main() {
         }
         if (!config.token) {
             (0,core.setFailed)("No token provided");
+            return;
+        }
+        if ((0,external_fs_.existsSync)(config.file)) {
+            (0,core.setFailed)("File does not exist");
             return;
         }
         yield uploadBenchmark(config);

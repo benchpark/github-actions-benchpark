@@ -1,4 +1,5 @@
 import { debug, info, setFailed } from "@actions/core";
+import { existsSync } from "fs";
 import { getConfig } from "./config";
 import { uploadBenchmark } from "./upload";
 
@@ -20,6 +21,10 @@ async function main() {
   }
   if (!config.token) {
     setFailed("No token provided");
+    return;
+  }
+  if (existsSync(config.file)) {
+    setFailed("File does not exist");
     return;
   }
 
