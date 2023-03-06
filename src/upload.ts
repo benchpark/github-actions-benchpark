@@ -1,10 +1,12 @@
-import { HttpClient } from "@actions/http-client";
 import { ActionConfig } from "./types";
-import { createReadStream } from "fs";
+import { createReadStream, existsSync } from "fs";
 import FormData from "form-data";
+import fetch from "node-fetch";
 
 export const uploadBenchmark = async (config: ActionConfig) => {
-  const client = new HttpClient("github-actions");
+  if (existsSync(config.file)) {
+    //file exists
+  }
 
   const file = createReadStream(config.file);
 
@@ -18,9 +20,11 @@ export const uploadBenchmark = async (config: ActionConfig) => {
   // Hack https://github.com/node-fetch/node-fetch/issues/102#issuecomment-209820954
   formData.getLengthSync = null;
 
-  client.post(config.url, "", {
-    ...formData.getHeaders(),
-    // "Content-Length": formData.getLengthSync(),
-    "x-api-key": config.token,
+  fetch(config.url, {
+    headers: {
+      ...formData.getHeaders(),
+      "x-api-key": config.token,
+    },
+    body: formData,
   });
 };
