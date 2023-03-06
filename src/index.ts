@@ -23,8 +23,8 @@ async function main() {
     setFailed("No token provided");
     return;
   }
-  if (existsSync(config.file)) {
-    setFailed("File does not exist");
+  if (!existsSync(config.file)) {
+    setFailed(`File ${config.file} does not exist`);
     return;
   }
 

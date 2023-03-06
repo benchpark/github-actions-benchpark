@@ -9305,14 +9305,17 @@ __nccwpck_require__.r(__webpack_exports__);
 var core = __nccwpck_require__(2186);
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __nccwpck_require__(7147);
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(1017);
 ;// CONCATENATED MODULE: ./src/config.ts
+
 
 const getConfig = () => {
     const config = {
         tool: (0,core.getInput)("tool"),
         url: (0,core.getInput)("url"),
         token: (0,core.getInput)("token"),
-        file: (0,core.getInput)("file"),
+        file: (0,external_path_.resolve)(process.env.GITHUB_WORKSPACE, (0,core.getInput)("file")),
     };
     return config;
 };
@@ -11469,8 +11472,6 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 	});
 }
 
-// EXTERNAL MODULE: external "path"
-var external_path_ = __nccwpck_require__(1017);
 ;// CONCATENATED MODULE: ./src/upload.ts
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -11484,15 +11485,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-
-
 const uploadBenchmark = (config) => __awaiter(void 0, void 0, void 0, function* () {
-    if ((0,external_fs_.existsSync)(config.file)) {
-        //file exists
-    }
-    const filePath = (0,external_path_.resolve)(__dirname, config.file);
-    (0,core.debug)(`uploading benchmark file ${filePath}`);
-    const file = (0,external_fs_.createReadStream)(filePath);
+    const file = (0,external_fs_.createReadStream)(config.file);
     const formData = new (form_data_default())();
     formData.append("benchmark", file);
     formData.append("tool", config.tool);
@@ -11541,8 +11535,8 @@ function main() {
             (0,core.setFailed)("No token provided");
             return;
         }
-        if ((0,external_fs_.existsSync)(config.file)) {
-            (0,core.setFailed)("File does not exist");
+        if (!(0,external_fs_.existsSync)(config.file)) {
+            (0,core.setFailed)(`File ${config.file} does not exist`);
             return;
         }
         yield uploadBenchmark(config);
