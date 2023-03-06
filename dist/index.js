@@ -9315,7 +9315,8 @@ const getConfig = () => {
         tool: (0,core.getInput)("tool"),
         url: (0,core.getInput)("url"),
         token: (0,core.getInput)("token"),
-        file: (0,external_path_.resolve)(process.env.GITHUB_WORKSPACE, (0,core.getInput)("file")),
+        // process.env.GITHUB_WORKSPACE
+        file: (0,external_path_.resolve)(process.cwd(), (0,core.getInput)("file")),
     };
     return config;
 };

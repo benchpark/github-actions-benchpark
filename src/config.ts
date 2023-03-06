@@ -7,7 +7,8 @@ export const getConfig = (): ActionConfig => {
     tool: getInput("tool"),
     url: getInput("url"),
     token: getInput("token"),
-    file: resolve(process.env.GITHUB_WORKSPACE, getInput("file")),
+    // process.env.GITHUB_WORKSPACE
+    file: resolve(process.cwd(), getInput("file")),
   };
   return config;
 };
