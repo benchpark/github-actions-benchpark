@@ -11495,6 +11495,7 @@ const uploadBenchmark = (config) => __awaiter(void 0, void 0, void 0, function* 
     // Hack https://github.com/node-fetch/node-fetch/issues/102#issuecomment-209820954
     formData.getLengthSync = null;
     fetch(config.url, {
+        method: "POST",
         headers: Object.assign(Object.assign({}, formData.getHeaders()), { "x-api-key": config.token }),
         body: formData,
     });
