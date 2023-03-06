@@ -4460,6 +4460,22 @@ function main() {
     return src_awaiter(this, void 0, void 0, function* () {
         const config = getConfig();
         (0,core.debug)(`Config: url=${config.url}, tool=${config.tool}, file=${config.file}`);
+        if (!config.url) {
+            (0,core.setFailed)("No URL provided");
+            return;
+        }
+        if (!config.tool) {
+            (0,core.setFailed)("No tool provided");
+            return;
+        }
+        if (!config.file) {
+            (0,core.setFailed)("No file provided");
+            return;
+        }
+        if (!config.token) {
+            (0,core.setFailed)("No token provided");
+            return;
+        }
         yield uploadBenchmark(config);
         (0,core.info)("Benchmark successfully uploaded!");
     });
