@@ -11469,6 +11469,8 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 	});
 }
 
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(1017);
 ;// CONCATENATED MODULE: ./src/upload.ts
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -11482,11 +11484,15 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
+
 const uploadBenchmark = (config) => __awaiter(void 0, void 0, void 0, function* () {
     if ((0,external_fs_.existsSync)(config.file)) {
         //file exists
     }
-    const file = (0,external_fs_.createReadStream)(config.file);
+    const filePath = (0,external_path_.resolve)(__dirname, config.file);
+    (0,core.debug)(`uploading benchmark file ${filePath}`);
+    const file = (0,external_fs_.createReadStream)(filePath);
     const formData = new (form_data_default())();
     formData.append("benchmark", file);
     formData.append("tool", config.tool);

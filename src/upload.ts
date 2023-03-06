@@ -2,13 +2,16 @@ import { ActionConfig } from "./types";
 import { createReadStream, existsSync } from "fs";
 import FormData from "form-data";
 import fetch from "node-fetch";
-
+import { resolve } from "path";
+import { debug } from "@actions/core";
 export const uploadBenchmark = async (config: ActionConfig) => {
   if (existsSync(config.file)) {
     //file exists
   }
 
-  const file = createReadStream(config.file);
+  const filePath = resolve(__dirname, config.file);
+  debug(`uploading benchmark file ${filePath}`);
+  const file = createReadStream(filePath);
 
   const formData = new FormData();
 
