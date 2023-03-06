@@ -21,6 +21,7 @@ export const uploadBenchmark = async (config: ActionConfig) => {
   formData.getLengthSync = null;
 
   fetch(config.url, {
+    method: "POST",
     headers: {
       ...formData.getHeaders(),
       "x-api-key": config.token,
