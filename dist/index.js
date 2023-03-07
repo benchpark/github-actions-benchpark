@@ -9317,6 +9317,14 @@ const getConfig = () => {
         token: (0,core.getInput)("token"),
         // process.env.GITHUB_WORKSPACE
         file: (0,external_path_.resolve)(process.cwd(), (0,core.getInput)("file")),
+        env: {
+            GITHUB_ACTION: process.env.GITHUB_ACTION,
+            GITHUB_RUN_ID: process.env.GITHUB_RUN_ID,
+            GITHUB_REF: process.env.GITHUB_REF,
+            GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY,
+            GITHUB_SHA: process.env.GITHUB_SHA,
+            GITHUB_HEAD_REF: process.env.GITHUB_HEAD_REF || "",
+        },
     };
     return config;
 };
@@ -11491,8 +11499,7 @@ const uploadBenchmark = (config) => __awaiter(void 0, void 0, void 0, function* 
     const formData = new (form_data_default())();
     formData.append("benchmark", file);
     formData.append("tool", config.tool);
-    formData.append("commit", process.env.GITHUB_SHA);
-    formData.append("branch", process.env.GITHUB_REF);
+    formData.append("env", config.env);
     // Hack https://github.com/node-fetch/node-fetch/issues/102#issuecomment-209820954
     formData.getLengthSync = null;
     fetch(config.url, {
