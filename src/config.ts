@@ -9,14 +9,12 @@ export const getConfig = (): ActionConfig => {
     token: getInput("token"),
     // process.env.GITHUB_WORKSPACE
     file: resolve(process.cwd(), getInput("file")),
-    env: {
-      GITHUB_ACTION: process.env.GITHUB_ACTION,
-      GITHUB_RUN_ID: process.env.GITHUB_RUN_ID,
-      GITHUB_REF: process.env.GITHUB_REF,
-      GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY,
-      GITHUB_SHA: process.env.GITHUB_SHA,
-      GITHUB_HEAD_REF: process.env.GITHUB_HEAD_REF || "",
-    },
+    action: process.env.GITHUB_ACTION,
+    run_id: process.env.GITHUB_RUN_ID,
+    ref: process.env.GITHUB_REF,
+    repository: process.env.GITHUB_REPOSITORY,
+    sha: process.env.GITHUB_SHA,
+    head_ref: process.env.GITHUB_HEAD_REF || "",
   };
   return config;
 };
